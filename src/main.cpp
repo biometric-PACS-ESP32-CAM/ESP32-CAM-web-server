@@ -101,9 +101,14 @@ void handleData() {
   String name = server.arg("name"); 
   String surname = server.arg("surname");
   String status_enter = server.arg("status_enter");
-  Serial.println(user_id + ", " + name + ", " + surname + ", " + status_enter);
-  // do something with data
-  server.send(200, "text/plain", "200: data received successfully");
+  if (status_enter == "out") {
+    status_enter = "in";
+    server.send(200, "text/plain", "in");
+  } else {
+    status_enter = "out";
+    server.send(200, "text/plain", "out");
+  }
+  Serial.println("Door opened for " + name + " " + surname + ", status=" + status_enter);
 }
 
 void setup()
