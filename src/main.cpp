@@ -46,8 +46,8 @@ void serveJpg()
     server.send(503, "", "");
     return;
   }
-  Serial.printf("CAPTURE OK %dx%d %db\n", frame->getWidth(), frame->getHeight(),
-                static_cast<int>(frame->size()));
+  //Serial.printf("CAPTURE OK %dx%d %db\n", frame->getWidth(), frame->getHeight(),
+  //              static_cast<int>(frame->size()));
 
   server.setContentLength(frame->size());
   server.send(200, "image/jpeg");
@@ -95,6 +95,17 @@ void handleMjpeg()
   Serial.printf("STREAM END %dfrm %0.2ffps\n", res, 1000.0 * res / duration);
 }
 
+// user_id=333666&name=Ivan&surname=Mischenko&status_enter=out
+void handleData() {
+  String user_id = server.arg("user_id");
+  String name = server.arg("name"); 
+  String surname = server.arg("surname");
+  String status_enter = server.arg("status_enter");
+  Serial.println(user_id + ", " + name + ", " + surname + ", " + status_enter);
+  // do something with data
+  server.send(200, "text/plain", "200: data received successfully");
+}
+
 void setup()
 {
   Serial.begin(115200);
@@ -131,6 +142,7 @@ void setup()
   server.on("/cam-hi.jpg", handleJpgHi);
   server.on("/cam.jpg", handleJpg);
   server.on("/cam.mjpeg", handleMjpeg);
+  server.on("/data", HTTP_POST, handleData);
 
   server.begin();
 }
