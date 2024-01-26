@@ -111,8 +111,7 @@ void handleData() {
   Serial.println("Door opened for " + name + " " + surname + ", status=" + status_enter);
 }
 
-void setup()
-{
+void setup() {
   Serial.begin(115200);
   Serial.println();
 
@@ -152,7 +151,6 @@ void setup()
   server.begin();
 }
 
-void loop()
-{
+void loop() {
   server.handleClient();
 }
