@@ -111,6 +111,11 @@ void handleData() {
   Serial.println("Door opened for " + name + " " + surname + ", status=" + status_enter);
 }
 
+// http://192.168.8.101
+IPAddress local_IP(192, 168, 8, 101);
+IPAddress gateway(192, 168, 8, 1);
+IPAddress subnet(255, 255, 0, 0);
+
 void setup() {
   Serial.begin(115200);
   Serial.println();
@@ -125,6 +130,11 @@ void setup() {
 
     bool ok = Camera.begin(cfg);
     Serial.println(ok ? "CAMERA OK" : "CAMERA FAIL");
+  }
+
+  // Настраиваем статический IP-адрес:
+  if (!WiFi.config(local_IP, gateway, subnet)) {
+    Serial.println("STA Failed to configure");  //  "Не удалось задать статический IP-адрес"
   }
 
   WiFi.persistent(false);
